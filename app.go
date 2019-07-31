@@ -5,12 +5,34 @@ package gocef
 #include "include/capi/cef_app_capi.h"
 */
 import "C"
-import "unsafe"
+import (
+	"os"
+	"unsafe"
+)
 
-type mainArg *C.cef_main_args_t
+type mainArgs *C.cef_main_args_t
+type settings *C.cef_settings_t
+type app *C.cef_app_t
 
-func Initialize() error {
-	args := (mainArg)(C.malloc(C.size_t(C.sizeof_cef_main_args_t)))
+type Settings struct {
+}
+
+func fillMainArgs(args mainArgs) {
+	argv := make([]*C.char, len(os.Args))
+	for i := 0; i < len(os.Args); i++ {
+		argv[i] = C.CString(os.Args[i])
+	}
+	args.argc = C.int(len(os.Args))
+	args.argv = &argv[0]
+}
+
+func Initialize() {
+	args := (mainArgs)(C.malloc(C.sizeof_cef_main_args_t))
 	defer C.free(unsafe.Pointer(args))
-	C.cef_initialize(args)
+	fillMainArgs(args)
+	settings := (settings)(C.malloc(C.sizeof_cef_settings_t))
+	defer C.free(unsafe.Pointer(settings))
+	app := (app)(C.malloc(C.sizeof_cef_app_t))
+	defer C.free(unsafe.Pointer(app))
+	C.cef_initialize(args, settings, app, nil)
 }
