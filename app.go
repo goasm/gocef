@@ -36,3 +36,7 @@ func Initialize() {
 	defer C.free(unsafe.Pointer(app))
 	C.cef_initialize(args, settings, app, nil)
 }
+
+func Shutdown() {
+	C.cef_shutdown()
+}
