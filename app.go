@@ -27,12 +27,12 @@ func fillMainArgs(args mainArgs) {
 }
 
 func Initialize() {
-	args := (mainArgs)(C.malloc(C.sizeof_cef_main_args_t))
+	args := (mainArgs)(C.calloc(1, C.sizeof_cef_main_args_t))
 	defer C.free(unsafe.Pointer(args))
 	fillMainArgs(args)
-	settings := (settings)(C.malloc(C.sizeof_cef_settings_t))
+	settings := (settings)(C.calloc(1, C.sizeof_cef_settings_t))
 	defer C.free(unsafe.Pointer(settings))
-	app := (app)(C.malloc(C.sizeof_cef_app_t))
+	app := (app)(C.calloc(1, C.sizeof_cef_app_t))
 	defer C.free(unsafe.Pointer(app))
 	C.cef_initialize(args, settings, app, nil)
 }
