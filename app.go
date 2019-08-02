@@ -37,6 +37,14 @@ func Initialize() {
 	C.cef_initialize(args, settings, app, nil)
 }
 
+func RunMessageLoop() {
+	C.cef_run_message_loop()
+}
+
+func QuitMessageLoop() {
+	C.cef_quit_message_loop()
+}
+
 func Shutdown() {
 	C.cef_shutdown()
 }
