@@ -5,7 +5,7 @@ package gocef
 #cgo LDFLAGS: -framework Cocoa
 #import <Cocoa/Cocoa.h>
 
-NSWindow* cocoa_window_new() {
+void* cocoa_window_new() {
   NSRect wndRect = NSMakeRect(100, 100, 200, 100);
   NSUInteger wndStyle = (NSTitledWindowMask | NSClosableWindowMask |
                          NSResizableWindowMask | NSMiniaturizableWindowMask);
@@ -21,4 +21,5 @@ import "C"
 import "unsafe"
 
 func CreateWindow() unsafe.Pointer {
+	return C.cocoa_window_new()
 }
