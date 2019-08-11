@@ -10,14 +10,19 @@ import (
 	"unsafe"
 )
 
-type mainArgs *C.cef_main_args_t
 type settings *C.cef_settings_t
 type app *C.cef_app_t
 
 type Settings struct {
 }
 
-func fillMainArgs(args mainArgs) {
+var mainArgs C.cef_main_args_t
+
+func init() {
+	fillMainArgs(&mainArgs)
+}
+
+func fillMainArgs(args *C.cef_main_args_t) {
 	argv := make([]*C.char, len(os.Args))
 	for i := 0; i < len(os.Args); i++ {
 		argv[i] = C.CString(os.Args[i])
@@ -27,14 +32,11 @@ func fillMainArgs(args mainArgs) {
 }
 
 func Initialize() {
-	args := (mainArgs)(C.calloc(1, C.sizeof_cef_main_args_t))
-	defer C.free(unsafe.Pointer(args))
-	fillMainArgs(args)
 	settings := (settings)(C.calloc(1, C.sizeof_cef_settings_t))
 	defer C.free(unsafe.Pointer(settings))
 	app := (app)(C.calloc(1, C.sizeof_cef_app_t))
 	defer C.free(unsafe.Pointer(app))
-	C.cef_initialize(args, settings, app, nil)
+	C.cef_initialize(&mainArgs, settings, app, nil)
 }
 
 func RunMessageLoop() {
