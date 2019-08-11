@@ -33,6 +33,7 @@ func fillMainArgs(args *C.cef_main_args_t) {
 
 func Initialize() {
 	settings := (settings)(C.calloc(1, C.sizeof_cef_settings_t))
+	settings.no_sandbox = 1
 	defer C.free(unsafe.Pointer(settings))
 	app := (app)(C.calloc(1, C.sizeof_cef_app_t))
 	defer C.free(unsafe.Pointer(app))
