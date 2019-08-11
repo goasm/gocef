@@ -16,10 +16,11 @@ type app *C.cef_app_t
 type Settings struct {
 }
 
-var mainArgs C.cef_main_args_t
+var mainArgs *C.cef_main_args_t
 
 func init() {
-	fillMainArgs(&mainArgs)
+	mainArgs = (*C.cef_main_args_t)(C.calloc(1, C.sizeof_cef_main_args_t))
+	fillMainArgs(mainArgs)
 }
 
 func fillMainArgs(args *C.cef_main_args_t) {
@@ -37,7 +38,7 @@ func Initialize() {
 	defer C.free(unsafe.Pointer(settings))
 	app := (app)(C.calloc(1, C.sizeof_cef_app_t))
 	defer C.free(unsafe.Pointer(app))
-	C.cef_initialize(&mainArgs, settings, app, nil)
+	C.cef_initialize(mainArgs, settings, app, nil)
 }
 
 func RunMessageLoop() {
