@@ -32,13 +32,19 @@ func fillMainArgs(args *C.cef_main_args_t) {
 	args.argv = &argv[0]
 }
 
-func Initialize() {
+func ExecuteProcess() int {
+	ret := C.cef_execute_process(mainArgs, nil, nil)
+	return int(ret)
+}
+
+func Initialize() bool {
 	settings := (settings)(C.calloc(1, C.sizeof_cef_settings_t))
 	settings.no_sandbox = 1
 	defer C.free(unsafe.Pointer(settings))
 	app := (app)(C.calloc(1, C.sizeof_cef_app_t))
 	defer C.free(unsafe.Pointer(app))
-	C.cef_initialize(mainArgs, settings, app, nil)
+	ret := C.cef_initialize(mainArgs, settings, app, nil)
+	return ret != 0
 }
 
 func RunMessageLoop() {
