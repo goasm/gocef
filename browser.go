@@ -7,19 +7,18 @@ package gocef
 #include "string_utils.h"
 */
 import "C"
-import "unsafe"
 
 type browser *C.cef_browser_t
 
 func CreateBrowser() bool {
 	wndInfo := (*C.cef_window_info_t)(C.calloc(1, C.sizeof_cef_window_info_t))
-	defer C.free(unsafe.Pointer(wndInfo))
+	// defer C.free(unsafe.Pointer(wndInfo))
 	client := (*C.cef_client_t)(C.calloc(1, C.sizeof_cef_client_t))
-	defer C.free(unsafe.Pointer(client))
+	// defer C.free(unsafe.Pointer(client))
 	url := (*C.cef_string_t)(C.calloc(1, C.sizeof_cef_string_t))
-	defer C.free(unsafe.Pointer(url))
+	// defer C.free(unsafe.Pointer(url))
 	settings := (*C.cef_browser_settings_t)(C.calloc(1, C.sizeof_cef_browser_settings_t))
-	defer C.free(unsafe.Pointer(settings))
+	// defer C.free(unsafe.Pointer(settings))
 	// init data
 	wndInfo.width = 500
 	wndInfo.height = 300

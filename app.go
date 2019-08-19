@@ -7,7 +7,6 @@ package gocef
 import "C"
 import (
 	"os"
-	"unsafe"
 )
 
 type settings *C.cef_settings_t
@@ -40,8 +39,9 @@ func ExecuteProcess() int {
 func Initialize() bool {
 	settings := (settings)(C.calloc(1, C.sizeof_cef_settings_t))
 	settings.no_sandbox = 1
-	defer C.free(unsafe.Pointer(settings))
+	// defer C.free(unsafe.Pointer(settings))
 	app := (app)(C.calloc(1, C.sizeof_cef_app_t))
+	// defer C.free(unsafe.Pointer(app))
 	retval := C.cef_initialize(mainArgs, settings, app, nil)
 	return retval != 0
 }
