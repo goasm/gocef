@@ -7,6 +7,7 @@ func main() {
 		return
 	}
 	gocef.Initialize()
+	gocef.CreateBrowser()
 	gocef.RunMessageLoop()
 	gocef.Shutdown()
 }
