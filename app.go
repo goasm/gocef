@@ -33,8 +33,8 @@ func fillMainArgs(args *C.cef_main_args_t) {
 }
 
 func ExecuteProcess() int {
-	ret := C.cef_execute_process(mainArgs, nil, nil)
-	return int(ret)
+	retval := C.cef_execute_process(mainArgs, nil, nil)
+	return int(retval)
 }
 
 func Initialize() bool {
@@ -42,9 +42,8 @@ func Initialize() bool {
 	settings.no_sandbox = 1
 	defer C.free(unsafe.Pointer(settings))
 	app := (app)(C.calloc(1, C.sizeof_cef_app_t))
-	defer C.free(unsafe.Pointer(app))
-	ret := C.cef_initialize(mainArgs, settings, app, nil)
-	return ret != 0
+	retval := C.cef_initialize(mainArgs, settings, app, nil)
+	return retval != 0
 }
 
 func RunMessageLoop() {
