@@ -1,0 +1,9 @@
+package gocef
+
+/*
+{{ if eq .Platform "linux" -}}
+#cgo CFLAGS: -I${SRCDIR}/vendor/{{.CEFBuild}}
+#cgo LDFLAGS: -L${SRCDIR}/vendor/{{.CEFBuild}}/Release -lcef
+{{ end -}}
+*/
+import "C"
