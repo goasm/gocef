@@ -1,12 +1,24 @@
 package main
 
 import (
+	"errors"
+	"flag"
 	"fmt"
 	"os"
 	"runtime"
 	"strings"
 	"text/template"
 )
+
+var (
+	help bool
+	cef  string
+)
+
+func init() {
+	flag.BoolVar(&help, "help", false, "print help message")
+	flag.StringVar(&cef, "cef", "", "CEF prebuilt dirname")
+}
 
 type context struct {
 	Platform string
@@ -27,7 +39,7 @@ func renderTemplate(tpl *template.Template, dst string) error {
 	defer out.Close()
 	ctx := context{
 		Platform: runtime.GOOS,
-		CEFBuild: "cef",
+		CEFBuild: cef,
 	}
 	err = tpl.Execute(out, ctx)
 	if err != nil {
@@ -37,7 +49,22 @@ func renderTemplate(tpl *template.Template, dst string) error {
 }
 
 func main() {
-	filename := os.Args[1]
+	// handle errors
+	defer func() {
+		if err := recover(); err != nil {
+			fmt.Println(err)
+		}
+	}()
+	// parse flags
+	flag.Parse()
+	if help {
+		flag.Usage()
+		return
+	}
+	if flag.NArg() < 1 {
+		panic(errors.New("Not enough arguments"))
+	}
+	filename := flag.Arg(0)
 	template := template.Must(template.ParseFiles(filename))
 	err := renderTemplate(template, getTargetPath(filename))
 	if err != nil {
