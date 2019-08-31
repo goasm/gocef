@@ -3,6 +3,7 @@ package gocef
 /*
 #include <stdlib.h>
 #include "include/capi/cef_app_capi.h"
+#include "base_object.h"
 */
 import "C"
 import (
@@ -37,8 +38,7 @@ func Initialize() bool {
 	settings := (*C.cef_settings_t)(C.calloc(1, C.sizeof_cef_settings_t))
 	settings.no_sandbox = 1
 	// defer C.free(unsafe.Pointer(settings))
-	app := (*C.cef_app_t)(C.calloc(1, C.sizeof_cef_app_t))
-	// defer C.free(unsafe.Pointer(app))
+	app := (*C.cef_app_t)(C.gocef_new(C.sizeof_cef_app_t))
 	retval := C.cef_initialize(mainArgs, settings, app, nil)
 	return retval != 0
 }
