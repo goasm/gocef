@@ -5,7 +5,7 @@
 
 #include "include/internal/cef_string.h"
 
-int gocef_set_string_utf8(_GoString_ src, cef_string_utf8_t* out);
-int gocef_set_string_utf16(_GoString_ src, cef_string_utf16_t* out);
+cef_string_utf8_t* gocef_to_utf8_impl(char* str, size_t len);
+cef_string_utf16_t* gocef_to_utf16_impl(char* str, size_t len);
 
 #endif  // GOCEF_TYPE_CONV_H_

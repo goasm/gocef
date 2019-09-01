@@ -1,15 +1,16 @@
 #include "type_conv.h"
 
-int gocef_set_string_utf8(_GoString_ src, cef_string_utf8_t* out) {
-  const char* str = _GoStringPtr(src);
-  size_t length = _GoStringLen(src);
-  out->str = (char*)str;
-  out->length = length;
-  return length;
+#include <stdlib.h>
+
+cef_string_utf8_t* gocef_to_utf8_impl(char* str, size_t len) {
+  cef_string_utf8_t* p = calloc(1, sizeof(cef_string_utf8_t));
+  p->str = str;
+  p->length = len;
+  return p;
 }
 
-int gocef_set_string_utf16(_GoString_ src, cef_string_utf16_t* out) {
-  const char* str = _GoStringPtr(src);
-  size_t length = _GoStringLen(src);
-  return cef_string_utf8_to_utf16(str, length, out);
+cef_string_utf16_t* gocef_to_utf16_impl(char* str, size_t len) {
+  cef_string_utf16_t* p = calloc(1, sizeof(cef_string_utf16_t));
+  cef_string_utf8_to_utf16(str, len, p);
+  return p;
 }
