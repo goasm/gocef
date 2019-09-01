@@ -21,7 +21,7 @@ func CreateBrowser() bool {
 	wndInfo.height = 300
 	url := gocefToUtf16("https://www.baidu.com")
 	retval := C.cef_browser_host_create_browser(wndInfo, client, url, settings, nil)
-	return retval != 0
+	return gocefToBool(retval)
 }
 
 func CreateBrowserSync() browser {

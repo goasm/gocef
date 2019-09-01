@@ -36,7 +36,7 @@ func Initialize() bool {
 	settings.NoSandbox = true
 	app := (*C.cef_app_t)(C.gocef_new(C.sizeof_cef_app_t))
 	retval := C.cef_initialize(mainArgs, settings.toNative(), app, nil)
-	return retval != 0
+	return gocefToBool(retval)
 }
 
 func RunMessageLoop() {
