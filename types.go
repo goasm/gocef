@@ -15,11 +15,12 @@ const (
 	LogSeverityInfo
 	LogSeverityWarning
 	LogSeverityError
+	LogSeverityFatal
+	LogSeverityDebug   LogSeverity = LogSeverityVerbose
 	LogSeverityDisable LogSeverity = 99
 )
 
 type Settings struct {
-	SingleProcess               bool
 	NoSandbox                   bool
 	BrowserSubprocessPath       string
 	FrameworkDirPath            string
