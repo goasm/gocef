@@ -10,9 +10,6 @@ import (
 	"os"
 )
 
-type Settings struct {
-}
-
 var mainArgs *C.cef_main_args_t
 
 func init() {
@@ -35,11 +32,10 @@ func ExecuteProcess() int {
 }
 
 func Initialize() bool {
-	settings := (*C.cef_settings_t)(C.calloc(1, C.sizeof_cef_settings_t))
-	settings.no_sandbox = 1
-	// defer C.free(unsafe.Pointer(settings))
+	settings := Settings{}
+	settings.NoSandbox = true
 	app := (*C.cef_app_t)(C.gocef_new(C.sizeof_cef_app_t))
-	retval := C.cef_initialize(mainArgs, settings, app, nil)
+	retval := C.cef_initialize(mainArgs, settings.toNative(), app, nil)
 	return retval != 0
 }
 

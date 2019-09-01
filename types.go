@@ -1,5 +1,10 @@
 package gocef
 
+/*
+#include <stdlib.h>
+#include "include/internal/cef_types.h"
+*/
+import "C"
 import "image/color"
 
 type LogSeverity int
@@ -43,5 +48,8 @@ type Settings struct {
 	AcceptLanguageList          string
 }
 
-func (s *Settings) toNative() {
+func (s *Settings) toNative() *C.cef_settings_t {
+	p := (*C.cef_settings_t)(C.calloc(1, C.sizeof_cef_settings_t))
+	p.size = C.sizeof_cef_settings_t
+	return p
 }
