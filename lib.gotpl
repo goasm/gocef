@@ -4,6 +4,9 @@ package gocef
 {{ if eq .Platform "linux" -}}
 #cgo CFLAGS: -I${SRCDIR}/vendor/{{.CEFBuild}}
 #cgo LDFLAGS: -L${SRCDIR}/vendor/{{.CEFBuild}}/Release -lcef
+{{ else if eq .Platform "darwin" -}}
+#cgo CFLAGS: -I${SRCDIR}/vendor/{{.CEFBuild}}
+#cgo LDFLAGS: -F${SRCDIR}/vendor/{{.CEFBuild}}/Release -framework "Chromium Embedded Framework"
 {{ end -}}
 */
 import "C"
