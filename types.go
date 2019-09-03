@@ -49,9 +49,7 @@ type Settings struct {
 	AcceptLanguageList          string
 }
 
-func (s *Settings) toNative() *C.cef_settings_t {
-	p := (*C.cef_settings_t)(C.calloc(1, C.sizeof_cef_settings_t))
-	p.size = C.sizeof_cef_settings_t
+func (s *Settings) copyToNative(p *C.cef_settings_t) {
 	p.no_sandbox = gocefFromBool(s.NoSandbox)
 	p.browser_subprocess_path = *gocefToUtf16(s.BrowserSubprocessPath)
 	p.framework_dir_path = *gocefToUtf16(s.FrameworkDirPath)
@@ -78,5 +76,11 @@ func (s *Settings) toNative() *C.cef_settings_t {
 	p.enable_net_security_expiration = gocefFromBool(s.EnableNetSecurityExpiration)
 	p.background_color = C.cef_color_t(gocefToARGB(s.BackgroundColor))
 	p.accept_language_list = *gocefToUtf16(s.AcceptLanguageList)
+}
+
+func (s *Settings) toNative() *C.cef_settings_t {
+	p := (*C.cef_settings_t)(C.calloc(1, C.sizeof_cef_settings_t))
+	p.size = C.sizeof_cef_settings_t
+	s.copyToNative(p)
 	return p
 }
