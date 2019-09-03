@@ -76,7 +76,7 @@ func (s *Settings) toNative() *C.cef_settings_t {
 	p.uncaught_exception_stack_size = C.int(s.UncaughtExceptionStackSize)
 	p.ignore_certificate_errors = gocefFromBool(s.IgnoreCertificateErrors)
 	p.enable_net_security_expiration = gocefFromBool(s.EnableNetSecurityExpiration)
-	p.background_color = s.BackgroundColor
+	p.background_color = C.cef_color_t(gocefToARGB(s.BackgroundColor))
 	p.accept_language_list = *gocefToUtf16(s.AcceptLanguageList)
 	return p
 }
