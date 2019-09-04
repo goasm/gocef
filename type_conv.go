@@ -18,6 +18,9 @@ func gocefFromBool(v bool) C.int {
 }
 
 func gocefToARGB(c color.Color) uint32 {
+	if c == nil {
+		return 0
+	}
 	r, g, b, a := c.RGBA()
 	r &= 0xff00
 	g &= 0xff00
