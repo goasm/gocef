@@ -21,7 +21,6 @@ func init() {
 
 func CreateWindow() unsafe.Pointer {
 	hwnd := C.gtk_window_new(C.GTK_WINDOW_TOPLEVEL)
-	C.gtk_widget_show_all(hwnd)
 	xid := uintptr(C.gocef_get_window_xid(hwnd))
 	return unsafe.Pointer(xid)
 }
