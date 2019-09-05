@@ -7,16 +7,20 @@ package gocef
 #include "base_object.h"
 */
 import "C"
+import (
+	"unsafe"
+)
 
 type browser *C.cef_browser_t
 
-func CreateBrowser() bool {
+func CreateBrowser(hwnd unsafe.Pointer) bool {
 	wndInfo := (*C.cef_window_info_t)(C.calloc(1, C.sizeof_cef_window_info_t))
 	// defer C.free(unsafe.Pointer(wndInfo))
 	client := (*C.cef_client_t)(C.gocef_new(C.sizeof_cef_client_t))
 	settings := (*C.cef_browser_settings_t)(C.calloc(1, C.sizeof_cef_browser_settings_t))
 	// defer C.free(unsafe.Pointer(settings))
 	// init data
+	wndInfo.parent_window = C.cef_window_handle_t(uintptr(hwnd))
 	wndInfo.width = 500
 	wndInfo.height = 300
 	url := gocefToUtf16("https://www.baidu.com")
@@ -24,6 +28,6 @@ func CreateBrowser() bool {
 	return gocefToBool(retval)
 }
 
-func CreateBrowserSync() browser {
+func CreateBrowserSync(hwnd unsafe.Pointer) browser {
 	return C.cef_browser_host_create_browser_sync(nil, nil, nil, nil, nil)
 }
