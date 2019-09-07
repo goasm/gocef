@@ -19,7 +19,10 @@ cef_string_utf16_t* gocef_to_utf16_impl(char* str, size_t len) {
 
 */
 import "C"
-import "image/color"
+import (
+	"image/color"
+	"unsafe"
+)
 
 func gocefToBool(v C.int) bool {
 	return v != 0
@@ -30,6 +33,10 @@ func gocefFromBool(v bool) C.int {
 		return 1
 	}
 	return 0
+}
+
+func gocefToFuncPtr(p unsafe.Pointer) *[0]byte {
+	return (*[0]byte)(p)
 }
 
 func gocefToARGB(c color.Color) uint32 {
