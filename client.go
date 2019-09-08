@@ -25,9 +25,13 @@ type clientDelegate struct {
 	self Client
 }
 
+func (c clientDelegate) copyToNative(p *C.cef_client_t) {
+	p.get_life_span_handler = gocefToFuncPtr(C.gocef_client_get_life_span_handler)
+}
+
 func (c clientDelegate) toNative() *C.cef_client_t {
 	p := (*C.cef_client_t)(gocefNew(C.sizeof_cef_client_t))
 	gocefSetRef(unsafe.Pointer(p), c.self)
-	p.get_life_span_handler = gocefToFuncPtr(C.gocef_client_get_life_span_handler)
+	c.copyToNative(p)
 	return p
 }
