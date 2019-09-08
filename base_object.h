@@ -5,6 +5,6 @@
 
 #include <stddef.h>
 
-void* gocef_new(size_t size);
+void* gocef_new_impl(size_t size);
 
 #endif  // GOCEF_BASE_OBJECT_H_

@@ -3,7 +3,6 @@ package gocef
 /*
 #include <stdlib.h>
 #include "include/capi/cef_browser_capi.h"
-#include "base_object.h"
 */
 import "C"
 

@@ -3,7 +3,6 @@ package gocef
 /*
 #include <stdlib.h>
 #include "include/capi/cef_app_capi.h"
-#include "base_object.h"
 */
 import "C"
 import (
@@ -34,7 +33,7 @@ func ExecuteProcess() int {
 func Initialize() bool {
 	settings := Settings{}
 	settings.NoSandbox = true
-	app := (*C.cef_app_t)(C.gocef_new(C.sizeof_cef_app_t))
+	app := (*C.cef_app_t)(gocefNew(C.sizeof_cef_app_t))
 	retval := C.cef_initialize(mainArgs, settings.toNative(), app, nil)
 	return gocefToBool(retval)
 }
