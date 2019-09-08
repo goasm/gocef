@@ -10,6 +10,7 @@ type Client struct{}
 type LifeSpanHandler struct{}
 
 func (h LifeSpanHandler) OnBeforeClose(b *gocef.Browser) {
+	gocef.QuitMessageLoop()
 }
 
 func (c Client) GetLifeSpanHandler() gocef.LifeSpanHandler {
