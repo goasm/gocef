@@ -6,12 +6,24 @@ import (
 	"github.com/goasm/gocef"
 )
 
+type myClient struct{}
+type myLifeSpanHandler struct{}
+
+func (h myLifeSpanHandler) OnBeforeClose(b *gocef.Browser) {
+	gocef.QuitMessageLoop()
+}
+
+func (c myClient) GetLifeSpanHandler() gocef.LifeSpanHandler {
+	return myLifeSpanHandler{}
+}
+
 func main() {
 	if retcode := gocef.ExecuteProcess(); retcode >= 0 {
 		os.Exit(retcode)
 	}
 	gocef.Initialize()
-	gocef.CreateBrowser()
+	client := myClient{}
+	gocef.CreateBrowser(client)
 	gocef.RunMessageLoop()
 	gocef.Shutdown()
 }

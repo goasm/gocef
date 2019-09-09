@@ -12,7 +12,7 @@ static int release_impl(cef_base_ref_counted_t* self) {
 static int has_one_ref_impl(cef_base_ref_counted_t* self) {
 }
 
-void* gocef_new(size_t size) {
+void* gocef_new_impl(size_t size) {
   void* obj = calloc(1, size);
   cef_base_ref_counted_t* base = (cef_base_ref_counted_t*)obj;
   base->size = size;
