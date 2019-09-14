@@ -36,15 +36,15 @@ static int has_at_least_one_ref_impl(cef_base_ref_counted_t* self) {
 }
 
 void* gocef_new_impl(size_t size) {
-  void* obj = calloc(1, size);
-  cef_base_ref_counted_t* base = (cef_base_ref_counted_t*)obj;
+  void* p = calloc(1, size + sizeof(ref_counted_impl_t));
+  cef_base_ref_counted_t* base = (cef_base_ref_counted_t*)p;
   base->size = size;
   base->add_ref = add_ref_impl;
   base->release = release_impl;
   base->has_one_ref = has_one_ref_impl;
   base->has_at_least_one_ref = has_at_least_one_ref_impl;
   ref_counted(base)->count = 1;
-  return obj;
+  return p;
 }
 
 void gocef_add_ref_impl(void* ptr) {
