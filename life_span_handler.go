@@ -16,7 +16,7 @@ type LifeSpanHandler interface {
 
 //export gocef_life_span_handler_on_before_close
 func gocef_life_span_handler_on_before_close(h *C.cef_life_span_handler_t, b *C.cef_browser_t) {
-	self := gocefGetRef(unsafe.Pointer(h)).(LifeSpanHandler)
+	self := gocefResolve(unsafe.Pointer(h)).(LifeSpanHandler)
 	self.OnBeforeClose((*Browser)(b))
 }
 
@@ -30,7 +30,7 @@ func (h lifeSpanHandlerDelegate) copyToNative(p *C.cef_life_span_handler_t) {
 
 func (h lifeSpanHandlerDelegate) toNative() *C.cef_life_span_handler_t {
 	p := (*C.cef_life_span_handler_t)(gocefNew(C.sizeof_cef_life_span_handler_t))
-	gocefSetRef(unsafe.Pointer(p), h.self)
+	gocefBind(unsafe.Pointer(p), h.self)
 	h.copyToNative(p)
 	return p
 }
