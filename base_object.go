@@ -20,3 +20,13 @@ func gocefRelease(ptr unsafe.Pointer) bool {
 	retval := C.gocef_release_impl(ptr)
 	return gocefToBool(retval)
 }
+
+func gocefHasOneRef(ptr unsafe.Pointer) bool {
+	retval := C.gocef_has_one_ref_impl(ptr)
+	return gocefToBool(retval)
+}
+
+func gocefHasAtLeastOneRef(ptr unsafe.Pointer) bool {
+	retval := C.gocef_has_at_least_one_ref_impl(ptr)
+	return gocefToBool(retval)
+}

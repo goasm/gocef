@@ -56,3 +56,13 @@ int gocef_release_impl(void* ptr) {
   cef_base_ref_counted_t* base = (cef_base_ref_counted_t*)ptr;
   return base->release(base);
 }
+
+int gocef_has_one_ref_impl(void* ptr) {
+  cef_base_ref_counted_t* base = (cef_base_ref_counted_t*)ptr;
+  return base->has_one_ref(base);
+}
+
+int gocef_has_at_least_one_ref_impl(void* ptr) {
+  cef_base_ref_counted_t* base = (cef_base_ref_counted_t*)ptr;
+  return base->has_at_least_one_ref(base);
+}
