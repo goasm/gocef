@@ -21,8 +21,7 @@ func Initialize() bool {
 	args := mainArgs(os.Args)
 	settings := Settings{}
 	settings.NoSandbox = true
-	app := (*C.cef_app_t)(gocefNew(C.sizeof_cef_app_t))
-	retval := C.cef_initialize(args.toNative(), settings.toNative(), app, nil)
+	retval := C.cef_initialize(args.toNative(), settings.toNative(), nil, nil)
 	return gocefToBool(retval)
 }
 
