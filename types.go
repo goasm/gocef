@@ -7,6 +7,19 @@ package gocef
 import "C"
 import "image/color"
 
+type mainArgs []string
+
+func (m mainArgs) toNative() *C.cef_main_args_t {
+	p := (*C.cef_main_args_t)(C.calloc(1, C.sizeof_cef_main_args_t))
+	p.argc = C.int(len(m))
+	args := make([]*C.char, len(m))
+	for i := 0; i < len(m); i++ {
+		args[i] = C.CString(m[i])
+	}
+	p.argv = &args[0]
+	return p
+}
+
 type LogSeverity int
 
 const (
