@@ -28,7 +28,7 @@ func gocefToBool(v C.int) bool {
 	return v != 0
 }
 
-func gocefFromBool(v bool) C.int {
+func gocefToInt(v bool) C.int {
 	if v {
 		return 1
 	}
