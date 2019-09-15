@@ -21,8 +21,9 @@ cef_string_utf16_t* gocef_to_utf16_impl(char* str, size_t len) {
 import "C"
 import (
 	"image/color"
-	"unsafe"
 )
+
+type gocefFuncPtr *[0]byte
 
 // gocefToBool converts a value of C int to Go bool
 func gocefToBool(v C.int) bool {
@@ -35,11 +36,6 @@ func gocefToInt(v bool) C.int {
 		return 1
 	}
 	return 0
-}
-
-// gocefToFuncPtr casts a C pointer to cgo function pointer
-func gocefToFuncPtr(p unsafe.Pointer) *[0]byte {
-	return (*[0]byte)(p)
 }
 
 // gocefToARGB converts a Go color to cef_color

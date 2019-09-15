@@ -26,7 +26,7 @@ type clientDelegate struct {
 }
 
 func (c clientDelegate) copyToNative(p *C.cef_client_t) {
-	p.get_life_span_handler = gocefToFuncPtr(C.gocef_client_get_life_span_handler)
+	p.get_life_span_handler = gocefFuncPtr(C.gocef_client_get_life_span_handler)
 }
 
 func (c clientDelegate) toNative() *C.cef_client_t {

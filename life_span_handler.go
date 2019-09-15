@@ -25,7 +25,7 @@ type lifeSpanHandlerDelegate struct {
 }
 
 func (h lifeSpanHandlerDelegate) copyToNative(p *C.cef_life_span_handler_t) {
-	p.on_before_close = gocefToFuncPtr(C.gocef_life_span_handler_on_before_close)
+	p.on_before_close = gocefFuncPtr(C.gocef_life_span_handler_on_before_close)
 }
 
 func (h lifeSpanHandlerDelegate) toNative() *C.cef_life_span_handler_t {
