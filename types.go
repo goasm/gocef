@@ -5,7 +5,10 @@ package gocef
 #include "include/internal/cef_types.h"
 */
 import "C"
-import "image/color"
+import (
+	"image/color"
+	"unsafe"
+)
 
 type mainArgs []string
 
@@ -34,6 +37,7 @@ const (
 )
 
 type Settings struct {
+	Nativer
 	NoSandbox                   bool
 	BrowserSubprocessPath       string
 	FrameworkDirPath            string
@@ -91,7 +95,7 @@ func (s *Settings) copyToNative(p *C.cef_settings_t) {
 	p.accept_language_list = *gocefToUtf16(s.AcceptLanguageList)
 }
 
-func (s *Settings) toNative() *C.cef_settings_t {
+func (s *Settings) toNative() unsafe.Pointer {
 	p := (*C.cef_settings_t)(C.calloc(1, C.sizeof_cef_settings_t))
 	p.size = C.sizeof_cef_settings_t
 	s.copyToNative(p)
