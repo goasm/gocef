@@ -9,20 +9,22 @@ import (
 type myClient struct{}
 type myLifeSpanHandler struct{}
 
-func (h myLifeSpanHandler) OnBeforeClose(b *gocef.Browser) {
+func (h *myLifeSpanHandler) OnBeforeClose(b *gocef.Browser) {
 	gocef.QuitMessageLoop()
 }
 
-func (c myClient) GetLifeSpanHandler() gocef.LifeSpanHandler {
-	return myLifeSpanHandler{}
+func (c *myClient) GetLifeSpanHandler() gocef.LifeSpanHandler {
+	return &myLifeSpanHandler{}
 }
 
 func main() {
 	if retcode := gocef.ExecuteProcess(); retcode >= 0 {
 		os.Exit(retcode)
 	}
-	gocef.Initialize()
-	client := myClient{}
+	settings := &gocef.Settings{}
+	settings.NoSandbox = true
+	gocef.Initialize(settings)
+	client := &myClient{}
 	gocef.CreateBrowser(client)
 	gocef.RunMessageLoop()
 	gocef.Shutdown()
