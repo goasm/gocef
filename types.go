@@ -38,6 +38,7 @@ const (
 
 type Settings struct {
 	Nativer
+	cref                        *C.cef_settings_t
 	NoSandbox                   bool
 	BrowserSubprocessPath       string
 	FrameworkDirPath            string
@@ -96,8 +97,10 @@ func (s *Settings) copyToNative(p *C.cef_settings_t) {
 }
 
 func (s *Settings) toNative() unsafe.Pointer {
-	p := (*C.cef_settings_t)(C.calloc(1, C.sizeof_cef_settings_t))
-	p.size = C.sizeof_cef_settings_t
-	s.copyToNative(p)
-	return p
+	if s.cref == nil {
+		s.cref = (*C.cef_settings_t)(C.calloc(1, C.sizeof_cef_settings_t))
+		s.cref.size = C.sizeof_cef_settings_t
+		s.copyToNative(s.cref)
+	}
+	return unsafe.Pointer(s.cref)
 }

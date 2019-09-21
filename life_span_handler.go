@@ -16,22 +16,25 @@ type LifeSpanHandler interface {
 
 //export gocef_life_span_handler_on_before_close
 func gocef_life_span_handler_on_before_close(h *C.cef_life_span_handler_t, b *C.cef_browser_t) {
-	self := gocefResolve(unsafe.Pointer(h)).(LifeSpanHandler)
+	self := gocefResolve(unsafe.Pointer(h)).(*lifeSpanHandlerDelegate).self
 	self.OnBeforeClose((*Browser)(b))
 }
 
 type lifeSpanHandlerDelegate struct {
 	Nativer
+	cref *C.cef_life_span_handler_t
 	self LifeSpanHandler
 }
 
-func (h lifeSpanHandlerDelegate) copyToNative(p *C.cef_life_span_handler_t) {
+func (h *lifeSpanHandlerDelegate) copyToNative(p *C.cef_life_span_handler_t) {
 	p.on_before_close = gocefFuncPtr(C.gocef_life_span_handler_on_before_close)
 }
 
-func (h lifeSpanHandlerDelegate) toNative() unsafe.Pointer {
-	p := (*C.cef_life_span_handler_t)(gocefNew(C.sizeof_cef_life_span_handler_t))
-	gocefBind(unsafe.Pointer(p), h.self)
-	h.copyToNative(p)
-	return p
+func (h *lifeSpanHandlerDelegate) toNative() unsafe.Pointer {
+	if h.cref == nil {
+		h.cref = (*C.cef_life_span_handler_t)(gocefNew(C.sizeof_cef_life_span_handler_t))
+		gocefBind(unsafe.Pointer(h.cref), h)
+		h.copyToNative(h.cref)
+	}
+	return unsafe.Pointer(h.cref)
 }

@@ -19,9 +19,14 @@ func ExecuteProcess() int {
 // Initialize initializes the CEF browser process
 func Initialize() bool {
 	args := mainArgs(os.Args)
-	settings := Settings{}
+	settings := &Settings{}
 	settings.NoSandbox = true
-	retval := C.cef_initialize(args.toNative(), settings.toNative(), nil, nil)
+	retval := C.cef_initialize(
+		args.toNative(),
+		(*C.cef_settings_t)(settings.toNative()),
+		nil,
+		nil,
+	)
 	return gocefToBool(retval)
 }
 
