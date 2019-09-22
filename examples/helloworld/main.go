@@ -24,7 +24,7 @@ func main() {
 	settings := &gocef.Settings{}
 	settings.NoSandbox = true
 	gocef.Initialize(settings)
-	client := &myClient{}
+	client := gocef.NewClient(&myClient{})
 	gocef.CreateBrowser(client)
 	gocef.RunMessageLoop()
 	gocef.Shutdown()

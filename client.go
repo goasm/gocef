@@ -17,23 +17,29 @@ type Client interface {
 
 //export gocef_client_get_life_span_handler
 func gocef_client_get_life_span_handler(c *C.cef_client_t) *C.cef_life_span_handler_t {
-	self := gocefResolve(unsafe.Pointer(c)).(*clientDelegate).self
+	self := gocefResolve(unsafe.Pointer(c)).(*ClientDelegate).self
 	handler := self.GetLifeSpanHandler()
 	handlerDelegate := lifeSpanHandlerDelegate{self: handler}
 	return (*C.cef_life_span_handler_t)(handlerDelegate.toNative())
 }
 
-type clientDelegate struct {
+// NewClient creates a delegate of Client
+func NewClient(c Client) *ClientDelegate {
+	return &ClientDelegate{self: c}
+}
+
+// ClientDelegate delegates all methods of Client
+type ClientDelegate struct {
 	Nativer
 	cref *C.cef_client_t
 	self Client
 }
 
-func (c *clientDelegate) copyToNative(p *C.cef_client_t) {
+func (c *ClientDelegate) copyToNative(p *C.cef_client_t) {
 	p.get_life_span_handler = gocefFuncPtr(C.gocef_client_get_life_span_handler)
 }
 
-func (c *clientDelegate) toNative() unsafe.Pointer {
+func (c *ClientDelegate) toNative() unsafe.Pointer {
 	if c.cref == nil {
 		c.cref = (*C.cef_client_t)(gocefNew(C.sizeof_cef_client_t))
 		gocefBind(unsafe.Pointer(c.cref), c)
