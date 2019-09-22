@@ -18,9 +18,8 @@ type Client interface {
 //export gocef_client_get_life_span_handler
 func gocef_client_get_life_span_handler(c *C.cef_client_t) *C.cef_life_span_handler_t {
 	self := gocefResolve(unsafe.Pointer(c)).(*ClientDelegate).self
-	handler := self.GetLifeSpanHandler()
-	handlerDelegate := lifeSpanHandlerDelegate{self: handler}
-	return (*C.cef_life_span_handler_t)(handlerDelegate.toNative())
+	handler := NewLifeSpanHandler(self.GetLifeSpanHandler())
+	return (*C.cef_life_span_handler_t)(handler.toNative())
 }
 
 // ClientDelegate delegates all methods of Client
