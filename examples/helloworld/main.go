@@ -28,4 +28,5 @@ func main() {
 	gocef.CreateBrowser(client)
 	gocef.RunMessageLoop()
 	gocef.Shutdown()
+	client.Destroy()
 }

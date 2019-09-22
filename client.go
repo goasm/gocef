@@ -23,11 +23,6 @@ func gocef_client_get_life_span_handler(c *C.cef_client_t) *C.cef_life_span_hand
 	return (*C.cef_life_span_handler_t)(handlerDelegate.toNative())
 }
 
-// NewClient creates a delegate of Client
-func NewClient(c Client) *ClientDelegate {
-	return &ClientDelegate{self: c}
-}
-
 // ClientDelegate delegates all methods of Client
 type ClientDelegate struct {
 	Nativer
@@ -35,15 +30,31 @@ type ClientDelegate struct {
 	self Client
 }
 
+// NewClient creates a delegate of Client
+func NewClient(c Client) *ClientDelegate {
+	d := &ClientDelegate{self: c}
+	d.cref = (*C.cef_client_t)(d.allocate())
+	return d
+}
+
+func (c *ClientDelegate) allocate() unsafe.Pointer {
+	p := gocefNew(C.sizeof_cef_client_t)
+	gocefBind(p, c)
+	return p
+}
+
 func (c *ClientDelegate) copyToNative(p *C.cef_client_t) {
 	p.get_life_span_handler = gocefFuncPtr(C.gocef_client_get_life_span_handler)
 }
 
 func (c *ClientDelegate) toNative() unsafe.Pointer {
-	if c.cref == nil {
-		c.cref = (*C.cef_client_t)(gocefNew(C.sizeof_cef_client_t))
-		gocefBind(unsafe.Pointer(c.cref), c)
-		c.copyToNative(c.cref)
-	}
+	c.copyToNative(c.cref)
 	return unsafe.Pointer(c.cref)
+}
+
+// Destroy destroys the delegate and free the C object
+func (c *ClientDelegate) Destroy() bool {
+	result := gocefRelease(unsafe.Pointer(c.cref))
+	c.cref = nil
+	return result
 }
