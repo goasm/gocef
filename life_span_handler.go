@@ -10,6 +10,7 @@ import (
 	"unsafe"
 )
 
+// LifeSpanHandler is the interface of browser life span event handler
 type LifeSpanHandler interface {
 	OnBeforeClose(b *Browser)
 }

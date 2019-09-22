@@ -36,6 +36,7 @@ const (
 	LogSeverityDisable LogSeverity = 99
 )
 
+// Settings represents the initialization settings of process
 type Settings struct {
 	Nativer
 	cref                        *C.cef_settings_t

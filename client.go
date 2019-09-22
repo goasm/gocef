@@ -10,6 +10,7 @@ import (
 	"unsafe"
 )
 
+// Client is the interface of handler implementations
 type Client interface {
 	GetLifeSpanHandler() LifeSpanHandler
 }
