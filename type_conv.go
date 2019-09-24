@@ -1,22 +1,7 @@
 package gocef
 
 /*
-#include <stdlib.h>
-#include "include/internal/cef_string.h"
-
-cef_string_utf8_t* gocef_to_utf8_impl(char* str, size_t len) {
-  cef_string_utf8_t* p = calloc(1, sizeof(cef_string_utf8_t));
-  p->str = str;
-  p->length = len;
-  return p;
-}
-
-cef_string_utf16_t* gocef_to_utf16_impl(char* str, size_t len) {
-  cef_string_utf16_t* p = calloc(1, sizeof(cef_string_utf16_t));
-  cef_string_utf8_to_utf16(str, len, p);
-  return p;
-}
-
+#include "type_conv.h"
 */
 import "C"
 import (
@@ -52,11 +37,11 @@ func gocefToARGB(c color.Color) uint32 {
 }
 
 // gocefToUtf8 converts a Go string to cef_string_utf8
-func gocefToUtf8(s string) *C.cef_string_utf8_t {
+func gocefToUtf8(s string) C.cef_string_utf8_t {
 	return C.gocef_to_utf8_impl(C.CString(s), C.size_t(len(s)))
 }
 
 // gocefToUtf16 converts a Go string to cef_string_utf16
-func gocefToUtf16(s string) *C.cef_string_utf16_t {
+func gocefToUtf16(s string) C.cef_string_utf16_t {
 	return C.gocef_to_utf16_impl(C.CString(s), C.size_t(len(s)))
 }
