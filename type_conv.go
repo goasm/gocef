@@ -36,12 +36,12 @@ func gocefToARGB(c color.Color) uint32 {
 	return (a<<24 | r<<16 | g<<8 | b<<0)
 }
 
-// gocefToUtf8 converts a Go string to cef_string_utf8
-func gocefToUtf8(s string) C.cef_string_utf8_t {
-	return C.gocef_to_utf8_impl(C.CString(s), C.size_t(len(s)))
+// gocefSetUtf8 converts a Go string to cef_string_utf8
+func gocefSetUtf8(d *C.cef_string_utf8_t, s string) {
+	C.gocef_set_utf8_impl(d, C.CString(s), C.size_t(len(s)))
 }
 
-// gocefToUtf16 converts a Go string to cef_string_utf16
-func gocefToUtf16(s string) C.cef_string_utf16_t {
-	return C.gocef_to_utf16_impl(C.CString(s), C.size_t(len(s)))
+// gocefSetUtf16 converts a Go string to cef_string_utf16
+func gocefSetUtf16(d *C.cef_string_utf16_t, s string) {
+	C.gocef_set_utf16_impl(d, C.CString(s), C.size_t(len(s)))
 }
