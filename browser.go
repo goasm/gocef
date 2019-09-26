@@ -18,7 +18,8 @@ func CreateBrowser(client *ClientDelegate) bool {
 	// wndInfo.parent_window = C.cef_window_handle_t(uintptr(hwnd))
 	wndInfo.width = 500
 	wndInfo.height = 300
-	url := gocefToUtf16("https://www.baidu.com")
+	url := C.cef_string_userfree_utf16_alloc()
+	gocefSetUtf16(url, "https://www.baidu.com")
 	retval := C.cef_browser_host_create_browser(
 		wndInfo,
 		(*C.cef_client_t)(client.toNative()),
