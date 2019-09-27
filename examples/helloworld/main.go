@@ -24,8 +24,12 @@ func main() {
 	settings := &gocef.Settings{}
 	settings.NoSandbox = true
 	gocef.Initialize(settings)
+	info := &gocef.WindowInfo{}
+	info.WindowName = "www.baidu.com"
+	info.Width = 500
+	info.Height = 300
 	client := gocef.NewClient(&myClient{})
-	gocef.CreateBrowser(client)
+	gocef.CreateBrowser(info, client)
 	gocef.RunMessageLoop()
 	gocef.Shutdown()
 	client.Destroy()

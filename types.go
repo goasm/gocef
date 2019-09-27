@@ -105,3 +105,38 @@ func (s *Settings) toNative() unsafe.Pointer {
 	}
 	return unsafe.Pointer(s.cref)
 }
+
+type WindowInfo struct {
+	cref                       *C.cef_window_info_t
+	WindowName                 string
+	X                          int
+	Y                          int
+	Width                      int
+	Height                     int
+	ParentWindow               unsafe.Pointer
+	WindowlessRenderingEnabled bool
+	SharedTextureEnabled       bool
+	ExternalBeginFrameEnabled  bool
+	Window                     unsafe.Pointer
+}
+
+func (w *WindowInfo) copyToNative(p *C.cef_window_info_t) {
+	gocefSetUtf16(&p.window_name, w.WindowName)
+	p.x = C.uint(w.X)
+	p.y = C.uint(w.Y)
+	p.width = C.uint(w.Width)
+	p.height = C.uint(w.Height)
+	p.parent_window = C.ulong(uintptr(w.ParentWindow))
+	p.windowless_rendering_enabled = gocefToInt(w.WindowlessRenderingEnabled)
+	p.shared_texture_enabled = gocefToInt(w.SharedTextureEnabled)
+	p.external_begin_frame_enabled = gocefToInt(w.ExternalBeginFrameEnabled)
+	p.window = C.ulong(uintptr(w.Window))
+}
+
+func (w *WindowInfo) toNative() unsafe.Pointer {
+	if w.cref == nil {
+		w.cref = (*C.cef_window_info_t)(C.calloc(1, C.sizeof_cef_window_info_t))
+		w.copyToNative(w.cref)
+	}
+	return unsafe.Pointer(w.cref)
+}
