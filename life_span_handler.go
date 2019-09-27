@@ -18,7 +18,8 @@ type LifeSpanHandler interface {
 //export gocef_life_span_handler_on_before_close
 func gocef_life_span_handler_on_before_close(h *C.cef_life_span_handler_t, b *C.cef_browser_t) {
 	self := gocefResolve(unsafe.Pointer(h)).(*LifeSpanHandlerDelegate).self
-	self.OnBeforeClose((*Browser)(b))
+	browser := &Browser{b}
+	self.OnBeforeClose(browser)
 }
 
 // LifeSpanHandlerDelegate delegates all methods of LifeSpanHandler
