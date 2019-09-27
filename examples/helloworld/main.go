@@ -28,6 +28,8 @@ func main() {
 	info.WindowName = "www.baidu.com"
 	info.Width = 500
 	info.Height = 300
+	info.X = 710
+	info.Y = 390
 	client := gocef.NewClient(&myClient{})
 	gocef.CreateBrowser(info, client)
 	gocef.RunMessageLoop()
