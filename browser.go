@@ -90,6 +90,9 @@ int gocef_browser_send_process_message(cef_browser_t* self, cef_process_id_t tar
 }
 */
 import "C"
+import (
+	"unsafe"
+)
 
 type BrowserHost C.cef_browser_host_t
 
@@ -128,6 +131,13 @@ func CreateBrowserSync(windowInfo *WindowInfo, client *ClientDelegate, url strin
 	)
 	C.cef_string_userfree_utf16_free(tmp1)
 	return &Browser{cref: cref}
+}
+
+// Destroy destroys the wrapper and free the C object
+func (b *Browser) Destroy() bool {
+	result := gocefRelease(unsafe.Pointer(b.cref))
+	b.cref = nil
+	return result
 }
 
 func (b *Browser) GetHost() *BrowserHost {
