@@ -8,6 +8,7 @@ package gocef
 import "C"
 
 type Browser struct {
+	Nativer
 	cref *C.cef_browser_t
 }
 
@@ -40,5 +41,5 @@ func CreateBrowserSync(windowInfo *WindowInfo, client *ClientDelegate, url strin
 		nil,
 	)
 	C.cef_string_userfree_utf16_free(tmp1)
-	return &Browser{cref}
+	return &Browser{cref: cref}
 }
