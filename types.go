@@ -106,6 +106,26 @@ func (s *Settings) toNative() unsafe.Pointer {
 	return unsafe.Pointer(s.cref)
 }
 
+type BrowserSettings struct {
+	cref               *C.cef_browser_settings_t
+	BackgroundColor    color.Color
+	AcceptLanguageList string
+}
+
+func (s *BrowserSettings) copyToNative(p *C.cef_browser_settings_t) {
+	p.background_color = C.cef_color_t(gocefToARGB(s.BackgroundColor))
+	gocefSetUtf16(&p.accept_language_list, s.AcceptLanguageList)
+}
+
+func (s *BrowserSettings) toNative() unsafe.Pointer {
+	if s.cref == nil {
+		s.cref = (*C.cef_browser_settings_t)(C.calloc(1, C.sizeof_cef_browser_settings_t))
+		s.cref.size = C.sizeof_cef_browser_settings_t
+		s.copyToNative(s.cref)
+	}
+	return unsafe.Pointer(s.cref)
+}
+
 type WindowInfo struct {
 	cref                       *C.cef_window_info_t
 	WindowName                 string
