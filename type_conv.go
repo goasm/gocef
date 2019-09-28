@@ -29,10 +29,10 @@ func gocefToARGB(c color.Color) uint32 {
 		return 0
 	}
 	r, g, b, a := c.RGBA()
-	r &= 0xff00
-	g &= 0xff00
-	b &= 0xff00
-	a &= 0xff00
+	r >>= 8
+	g >>= 8
+	b >>= 8
+	a >>= 8
 	return (a<<24 | r<<16 | g<<8 | b<<0)
 }
 
