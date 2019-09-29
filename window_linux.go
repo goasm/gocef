@@ -1,7 +1,7 @@
 package gocef
 
 /*
-#cgo pkg-config: gtk+-2.0
+#cgo pkg-config: gtk+-3.0
 #include <gtk/gtk.h>
 #include <gdk/gdkx.h>
 
