@@ -31,7 +31,8 @@ func main() {
 	info.X = 710
 	info.Y = 390
 	client := gocef.NewClient(&myClient{})
-	gocef.CreateBrowser(info, client, "https://www.baidu.com")
+	browserSettings := &gocef.BrowserSettings{}
+	gocef.CreateBrowser(info, client, "https://www.baidu.com", browserSettings)
 	gocef.RunMessageLoop()
 	gocef.Shutdown()
 	client.Destroy()
