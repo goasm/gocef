@@ -21,17 +21,21 @@ func main() {
 	if retcode := gocef.ExecuteProcess(); retcode >= 0 {
 		os.Exit(retcode)
 	}
-	settings := &gocef.Settings{}
-	settings.NoSandbox = true
-	gocef.Initialize(settings)
-	info := &gocef.WindowInfo{}
-	info.WindowName = "www.baidu.com"
-	info.Width = 500
-	info.Height = 300
-	info.X = 710
-	info.Y = 390
+	appSettings := &gocef.Settings{
+		NoSandbox: true,
+	}
+	gocef.Initialize(appSettings)
+	info := &gocef.WindowInfo{
+		WindowName: "www.baidu.com",
+		Width:      500,
+		Height:     300,
+		X:          710,
+		Y:          390,
+	}
 	client := gocef.NewClient(&myClient{})
-	gocef.CreateBrowser(info, client, "https://www.baidu.com")
+	url := "https://www.baidu.com"
+	settings := &gocef.BrowserSettings{}
+	gocef.CreateBrowser(info, client, url, settings)
 	gocef.RunMessageLoop()
 	gocef.Shutdown()
 	client.Destroy()

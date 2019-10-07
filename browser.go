@@ -100,8 +100,7 @@ type Browser struct {
 	cref *C.cef_browser_t
 }
 
-func CreateBrowser(windowInfo *WindowInfo, client *ClientDelegate, url string) bool {
-	settings := &BrowserSettings{}
+func CreateBrowser(windowInfo *WindowInfo, client *ClientDelegate, url string, settings *BrowserSettings) bool {
 	tmp1 := C.cef_string_userfree_utf16_alloc()
 	gocefSetUtf16(tmp1, url)
 	retval := C.cef_browser_host_create_browser(
@@ -115,8 +114,7 @@ func CreateBrowser(windowInfo *WindowInfo, client *ClientDelegate, url string) b
 	return gocefToBool(retval)
 }
 
-func CreateBrowserSync(windowInfo *WindowInfo, client *ClientDelegate, url string) *Browser {
-	settings := &BrowserSettings{}
+func CreateBrowserSync(windowInfo *WindowInfo, client *ClientDelegate, url string, settings *BrowserSettings) *Browser {
 	tmp1 := C.cef_string_userfree_utf16_alloc()
 	gocefSetUtf16(tmp1, url)
 	cref := C.cef_browser_host_create_browser_sync(
